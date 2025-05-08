@@ -316,11 +316,6 @@
                                         <div class="ps-4 mt-1">{{ $debater->address ?: 'Alamat tidak tersedia' }}</div>
                                     </div>
                                 </div>
-                                <div class="card-footer bg-transparent py-2">
-                                    <small class="text-muted">
-                                        <i class="fas fa-clock me-1"></i> Terdaftar: {{ $debater->created_at->diffForHumans() }}
-                                    </small>
-                                </div>
                             </div>
                         </div>
                         @endforeach

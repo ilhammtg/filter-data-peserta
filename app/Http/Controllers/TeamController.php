@@ -9,16 +9,16 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Pagination\LengthAwarePaginator;
-use App\Models\Team; // Huruf kapital untuk model
+use App\Models\Team;
 
 class TeamController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Team::with(['debaters']); // Huruf kapital untuk model
+        $query = Team::with(['debaters']);
 
         // Filter by team name
-        if ($request->filled('team_name')) { // Lebih baik gunakan filled() daripada has()
+        if ($request->filled('team_name')) {
             $query->where('name', 'like', '%' . $request->team_name . '%');
         }
 
@@ -53,7 +53,7 @@ class TeamController extends Controller
         return view('teams.index', compact('teams'));
     }
 
-    public function show(Team $team) // Huruf kapital untuk model
+    public function show(Team $team)
     {
         $team->load('debaters');
         return view('teams.show', compact('team'));
@@ -88,12 +88,12 @@ class TeamController extends Controller
     {
         $query = Team::with(['debaters']);
 
-        // Terapkan filter yang sama dengan index
         if ($request->has('team_name')) {
             $query->where('name', 'like', '%' . $request->team_name . '%');
         }
-        // ... filter lainnya
 
-        return Excel::download(new TeamsExport($query), 'data_tim_debat.xlsx');
+        $teams = $query->get();
+
+        return Excel::download(new TeamsExport($teams), 'data_tim_debat.xlsx');
     }
 }
